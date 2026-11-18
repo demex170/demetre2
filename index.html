@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ელექტრული დენი — ბუნება და ტექნიკა</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#070c16;
+  --panel:#101a2b;
+  --blue:#58c7ff;
+  --gold:#e9c77a;
+  --white:#f3f6fc;
+  --muted:#a5b2c6;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--white);
+  font-family:"Noto Sans Georgian",sans-serif;
+  overflow:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(#ffffff08 1px,transparent 1px),
+  linear-gradient(90deg,#ffffff08 1px,transparent 1px);
+  background-size:55px 55px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+.presentation{height:100vh;position:relative}
+.slide{
+  position:absolute;inset:0;display:flex;align-items:center;
+  padding:65px clamp(25px,8vw,125px);
+  opacity:0;visibility:hidden;transform:translateY(18px);
+  transition:.55s ease;overflow-y:auto;
+}
+.slide.active{opacity:1;visibility:visible;transform:translateY(0)}
+.content{width:100%;max-width:1200px;margin:auto}
+.eyebrow{
+  color:var(--blue);font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;margin-bottom:20px;font-weight:700;
+}
+h1{font-size:clamp(38px,7vw,82px);line-height:1.2;margin:0 0 24px;letter-spacing:-2px}
+h2{font-size:clamp(28px,4vw,48px);margin:0 0 25px;line-height:1.3}
+h3{font-size:19px;margin:0 0 12px}
+p{color:var(--muted);font-size:17px;line-height:1.9}
+.gold{color:var(--gold)}
+.blue{color:var(--blue)}
+.subtitle{font-size:clamp(17px,2vw,22px);max-width:760px}
+.line{width:75px;height:3px;background:var(--gold);margin:25px 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:25px}
+.card{
+  background:linear-gradient(145deg,#142238,#0c1422);
+  border:1px solid #ffffff12;border-radius:18px;padding:23px;
+  box-shadow:0 15px 45px #0003;
+}
+.card p{font-size:14px;margin-bottom:0}
+.number{font-size:34px;color:var(--blue);font-weight:800;margin-bottom:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.photo{
+  width:100%;height:350px;object-fit:cover;border-radius:18px;
+  border:1px solid #ffffff20;box-shadow:0 20px 60px #0007;
+}
+.caption{font-size:12px;color:#8494aa;margin-top:10px}
+.timeline{border-left:2px solid #58c7ff55;margin:20px 0 0 10px;padding-left:25px}
+.event{position:relative;margin:0 0 18px}
+.event:before{
+  content:"";position:absolute;left:-32px;top:7px;
+  width:11px;height:11px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 14px #e9c77a77;
+}
+.event strong{color:var(--gold);display:block;margin-bottom:5px}
+.quote{
+  border-left:3px solid var(--gold);padding:15px 22px;
+  background:#ffffff08;border-radius:0 12px 12px 0;
+  color:#dce7f6;font-size:18px;line-height:1.8;
+}
+.footer{
+  position:fixed;bottom:24px;left:8%;right:8%;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#8090a8;font-size:12px;z-index:10;
+}
+.controls{display:flex;gap:9px;align-items:center}
+button{
+  background:#13243a;color:white;border:1px solid #ffffff20;
+  border-radius:10px;padding:10px 16px;cursor:pointer;
+  font-family:inherit;transition:.2s;
+}
+button:hover{background:#1c3a58;border-color:var(--blue)}
+.progress{
+  position:fixed;top:0;left:0;height:3px;background:var(--blue);
+  width:0;transition:.35s;z-index:20;
+}
+.counter{font-variant-numeric:tabular-nums}
+.cover-tag{
+  display:inline-block;border:1px solid #e9c77a66;color:var(--gold);
+  border-radius:30px;padding:10px 16px;font-size:12px;letter-spacing:2px;
+  margin-bottom:25px;
+}
+.big-symbol{font-size:90px;color:var(--blue);opacity:.8}
+.source-list{font-size:13px;line-height:2.1;color:var(--muted)}
+@media(max-width:700px){
+  .slide{padding:40px 22px 95px}
+  .two-col,.grid{grid-template-columns:1fr;gap:15px}
+  .photo{height:220px}
+  .footer{left:15px;right:15px;bottom:12px}
+  .footer button{padding:9px 12px}
+  .footer .hint{display:none}
+  p{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="presentation">
+
+<section class="slide active">
+<div class="content">
+<div class="cover-tag">ფიზიკა · სასწავლო პრეზენტაცია</div>
+<div class="eyebrow">ბუნება • მეცნიერება • ტექნოლოგია</div>
+<h1>ელექტრული დენი<br><span class="gold">ბუნებაში და ტექნიკაში</span></h1>
+<div class="line"></div>
+<p class="subtitle">ელექტრული დენის წარმოშობა, აღმოჩენის ისტორია და მისი მნიშვნელობა თანამედროვე სამყაროში.</p>
+<div style="margin-top:40px;color:#8b9bb2;font-size:13px">მოამზადა: __________________</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">01 — ძირითადი ცნება</div>
+<h2>რა არის <span class="blue">ელექტრული დენი?</span></h2>
+<div class="two-col">
+<div>
+<p>ელექტრული დენი არის ელექტრულად დამუხტული ნაწილაკების მოწესრიგებული მოძრაობა.</p>
+<p>ლითონებში დენის გადამტანები თავისუფალი ელექტრონებია, ხოლო ელექტროლიტებში — დადებითი და უარყოფითი იონები.</p>
+<div class="quote">დენის წარმოქმნისთვის საჭიროა თავისუფალი მუხტის მატარებლები და მათი მოწესრიგებული მოძრაობის გამომწვევი პირობები.</div>
+</div>
+<div class="card">
+<div class="number">I = q / t</div>
+<h3>დენის ძალა</h3>
+<p>I — დენის ძალა (ამპერი)</p>
+<p>q — მუხტი (კულონი)</p>
+<p>t — დრო (წამი)</p>
+<p class="gold">დენის ძალა გვიჩვენებს, რა მუხტი გაივლის გამტარის განივკვეთში დროის ერთეულში.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">02 — ბუნებრივი მოვლენები</div>
+<h2>ელექტრული დენი <span class="blue">ბუნებაში</span></h2>
+<div class="two-col">
+<div>
+<div class="card">
+<h3>ელვა</h3>
+<p>ღრუბლებსა და დედამიწას შორის ელექტრული მუხტების დიდი სხვაობის დროს წარმოიქმნება ძლიერი ელექტრული განმუხტვა.</p>
+</div>
+<div class="card" style="margin-top:14px">
+<h3>ელექტრული თევზები</h3>
+<p>ზოგიერთ თევზს სპეციალური ორგანოებით ელექტრული განმუხტვის წარმოქმნა შეუძლია.</p>
+</div>
+<div class="card" style="margin-top:14px">
+<h3>ცოცხალი ორგანიზმები</h3>
+<p>ნერვული სისტემის მუშაობა ელექტრულ სიგნალებს ეფუძნება.</p>
+</div>
+</div>
+<img class="photo" src="https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?auto=format&fit=crop&w=1200&q=85" alt="ელვა ღამის ცაზე">
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">03 — ელექტრობა სიცოცხლეში</div>
+<h2>ელექტრული მოვლენები <span class="gold">ადამიანში</span></h2>
+<div class="two-col">
+<img class="photo" src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85" alt="ადამიანის ტვინის სამედიცინო გამოსახულება">
+<div>
+<h3>ნერვული იმპულსები</h3>
+<p>ნერვული უჯრედები ინფორმაციას ელექტრული და ქიმიური სიგნალების საშუალებით გადასცემენ.</p>
+<h3>გულის მუშაობა</h3>
+<p>გულის შეკუმშვას ელექტრული სიგნალები არეგულირებს. ელექტროკარდიოგრამა (ეკგ) გულის ელექტრულ აქტივობას აღრიცხავს.</p>
+<h3>ბიოელექტრობა</h3>
+<p>ორგანიზმში არსებული ელექტრული პროცესები მოძრაობის, შეგრძნებისა და ორგანოების კოორდინირებული მუშაობისთვის მნიშვნელოვანია.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">04 — ისტორია</div>
+<h2>ელექტრობის შესწავლის <span class="blue">ისტორია</span></h2>
+<div class="two-col">
+<div class="timeline">
+<div class="event"><strong>ძველი საბერძნეთი</strong><p>თალეს მილეტელმა ქარვის ხახუნით გამოწვეული მიზიდულობის მოვლენა აღწერა.</p></div>
+<div class="event"><strong>1600 — უილიამ გილბერტი</strong><p>სისტემურად იკვლევდა ელექტრულ და მაგნიტურ მოვლენებს.</p></div>
+<div class="event"><strong>1780-იანი წლები — ლუიჯი გალვანი</strong><p>იკვლევდა ელექტრულ მოვლენებს ცხოველთა კუნთებში.</p></div>
+<div class="event"><strong>1800 — ალესანდრო ვოლტა</strong><p>შექმნა პირველი ქიმიური ელექტრული ბატარეა — ვოლტას სვეტი.</p></div>
+<div class="event"><strong>1820 — ჰანს ქრისტიან ერსტედი</strong><p>აღმოაჩინა ელექტრული დენის მაგნიტური მოქმედება.</p></div>
+<div class="event"><strong>1831 — მაიკლ ფარადეი</strong><p>აღმოაჩინა ელექტრომაგნიტური ინდუქცია.</p></div>
+</div>
+<img class="photo" src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=1200&q=85" alt="ძველი სამეცნიერო ლაბორატორია">
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">05 — მნიშვნელოვანი გამოგონება</div>
+<h2>ალესანდრო ვოლტა და <span class="gold">ელექტრული ბატარეა</span></h2>
+<div class="two-col">
+<div>
+<p>1800 წელს იტალიელმა მეცნიერმა ალესანდრო ვოლტამ შექმნა მოწყობილობა, რომელსაც უწოდეს ვოლტას სვეტი.</p>
+<p>იგი შედგებოდა ერთმანეთზე მონაცვლეობით განლაგებული თუთიისა და სპილენძის ფირფიტებისგან, მათ შორის მოთავსებული ელექტროლიტით დასველებული მასალისგან.</p>
+<p>მოწყობილობა ქიმიური ენერგიის ელექტრულ ენერგიად გარდაქმნას უზრუნველყოფდა.</p>
+<div class="quote">ვოლტას გამოგონებამ შესაძლებელი გახადა ელექტრული დენის ხანგრძლივად მიღება და მისი მეცნიერული შესწავლა.</div>
+</div>
+<div>
+<img class="photo" src="https://commons.wikimedia.org/wiki/Special:FilePath/VoltaBattery.JPG" alt="ვოლტას ელექტრული ბატარეა" onerror="this.onerror=null;this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Voltaic_pile_battery.png'">
+<div class="caption">ვოლტას სვეტის ისტორიული გამოსახულება. Wikimedia Commons.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">06 — ელექტრომაგნიტური ინდუქცია</div>
+<h2>მაიკლ ფარადეი და <span class="blue">გენერატორი</span></h2>
+<div class="two-col">
+<img class="photo" src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=85" alt="ელექტროსადგურის ელექტროგადამცემი მოწყობილობა">
+<div>
+<p>1831 წელს მაიკლ ფარადეიმ აღმოაჩინა ელექტრომაგნიტური ინდუქციის მოვლენა.</p>
+<p>მან აჩვენა, რომ მაგნიტური ველის ცვლილებით გამტარში ელექტრული დენის წარმოქმნა შეიძლება.</p>
+<h3>რატომ არის ეს მნიშვნელოვანი?</h3>
+<p>ელექტრომაგნიტური ინდუქციის პრინციპი ელექტრული გენერატორების მუშაობის საფუძველია.</p>
+<div class="quote">გენერატორი მექანიკურ ენერგიას ელექტრულ ენერგიად გარდაქმნის.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">07 — თანამედროვე ტექნოლოგია</div>
+<h2>ელექტრული დენი <span class="gold">ტექნიკაში</span></h2>
+<div class="grid">
+<div class="card"><div class="number">01</div><h3>განათება</h3><p>ელექტრული დენი ნათურებსა და განათების სისტემებს ამუშავებს.</p></div>
+<div class="card"><div class="number">02</div><h3>კავშირგაბმულობა</h3><p>ტელეფონები, კომპიუტერები და ქსელური მოწყობილობები ელექტროენერგიას იყენებენ.</p></div>
+<div class="card"><div class="number">03</div><h3>ტრანსპორტი</h3><p>ელექტრომატარებლები და ელექტრომობილები ელექტრულ ენერგიას მოძრაობისთვის იყენებენ.</p></div>
+<div class="card"><div class="number">04</div><h3>მრეწველობა</h3><p>ელექტროძრავები, ავტომატიზაცია და საწარმოო დანადგარები.</p></div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">08 — ენერგიის გზა</div>
+<h2>როგორ აღწევს ელექტროენერგია <span class="blue">ჩვენამდე?</span></h2>
+<div class="grid">
+<div class="card"><div class="number">01</div><h3>წარმოება</h3><p>ელექტროსადგურებში გენერატორები ელექტროენერგიას წარმოქმნიან.</p></div>
+<div class="card"><div class="number">02</div><h3>გადაცემა</h3><p>ტრანსფორმატორები ძაბვას ცვლიან, ხოლო ელექტროგადამცემი ხაზები ენერგიას გადააქვს.</p></div>
+<div class="card"><div class="number">03</div><h3>განაწილება</h3><p>ქვესადგურები და გამანაწილებელი ქსელი ელექტროენერგიას მომხმარებლებს აწვდის.</p></div>
+<div class="card"><div class="number">04</div><h3>მოხმარება</h3><p>სახლებსა და დაწესებულებებში ელექტროენერგია სხვადასხვა მოწყობილობას ამუშავებს.</p></div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">09 — უსაფრთხოება</div>
+<h2>ელექტრული დენისგან <span class="gold">თავდაცვა</span></h2>
+<div class="two-col">
+<div>
+<div class="card"><h3>არ შეეხო დაზიანებულ სადენებს</h3><p>დაზიანებული ელექტროსადენი შეიძლება სიცოცხლისთვის საშიში იყოს.</p></div>
+<div class="card" style="margin-top:15px"><h3>წყალი და ელექტრობა</h3><p>არ გამოიყენო ელექტრომოწყობილობა სველი ხელებით ან წყლის სიახლოვეს, თუ ის ამისთვის განკუთვნილი არ არის.</p></div>
+<div class="card" style="margin-top:15px"><h3>სპეციალისტის დახმარება</h3><p>ელექტროსისტემის შეკეთება მხოლოდ კვალიფიციურმა სპეციალისტმა უნდა შეასრულოს.</p></div>
+</div>
+<div class="card" style="text-align:center;padding:45px 25px">
+<div class="big-symbol">⚡</div>
+<h3 class="gold">უსაფრთხოება უპირველესია</h3>
+<p>ელექტროენერგია სასარგებლოა, თუმცა მისი გამოყენება სიფრთხილესა და წესების დაცვას მოითხოვს.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">10 — დასკვნა</div>
+<h2>რა ვისწავლეთ?</h2>
+<div class="grid">
+<div class="card"><h3>ელექტრული დენი</h3><p>დამუხტული ნაწილაკების მოწესრიგებული მოძრაობაა.</p></div>
+<div class="card"><h3>ბუნება</h3><p>ელექტრული მოვლენები გვხვდება ელვაში და ცოცხალ ორგანიზმებში.</p></div>
+<div class="card"><h3>ისტორია</h3><p>ვოლტას, ერსტედისა და ფარადეის აღმოჩენებმა ელექტრობის განვითარებას შეუწყო ხელი.</p></div>
+<div class="card"><h3>ტექნიკა</h3><p>ელექტრული დენი თანამედროვე ცხოვრების ერთ-ერთი მთავარი საფუძველია.</p></div>
+</div>
+<div class="line"></div>
+<h3 class="gold">ელექტროენერგია — მეცნიერების ერთ-ერთი უმნიშვნელოვანესი მიღწევა.</h3>
+</div>
+</section>
+
+<section class="slide">
+<div class="content">
+<div class="eyebrow">11 — გამოყენებული წყაროები</div>
+<h2>წყაროები და <span class="gold">ლიტერატურა</span></h2>
+<div class="card source-list">
+1. Encyclopaedia Britannica — Alessandro Volta და Michael Faraday.<br>
+2. Encyclopaedia Britannica — Electric current და Electricity.<br>
+3. The Royal Institution — Michael Faraday-ის სამეცნიერო მემკვიდრეობა.<br>
+4. Wikimedia Commons — ვოლტას ბატარეის ისტორიული გამოსახულება.<br>
+5. სასკოლო ფიზიკის სახელმძღვანელო — ელექტრული დენისა და ელექტრული წრედის თემა.
+</div>
+<div class="line"></div>
+<h1 style="font-size:clamp(35px,6vw,65px)">გმადლობთ <span class="blue">ყურადღებისთვის!</span></h1>
+</div>
+</section>
+
+</main>
+
+<div class="footer">
+<div class="counter" id="counter">01 / 12</div>
+<div class="hint">← → სლაიდების გადასართავად</div>
+<div class="controls">
+<button onclick="change(-1)" aria-label="წინა სლაიდი">←</button>
+<button onclick="change(1)" aria-label="შემდეგი სლაიდი">→</button>
+<button onclick="fullScreen()">⛶</button>
+</div>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll(".slide")];
+let current=0;
+function show(n){
+  current=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,i)=>s.classList.toggle("active",i===current));
+  document.getElementById("counter").textContent=
+    String(current+1).padStart(2,"0")+" / "+String(slides.length).padStart(2,"0");
+  document.getElementById("progress").style.width=
+    ((current+1)/slides.length*100)+"%";
+}
+function change(n){show(current+n)}
+function fullScreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();change(1)}
+  if(e.key==="ArrowLeft"){e.preventDefault();change(-1)}
+  if(e.key==="Home")show(0);
+  if(e.key==="End")show(slides.length-1);
+});
+let touchStart=0;
+document.addEventListener("touchstart",e=>touchStart=e.changedTouches[0].screenX,{passive:true});
+document.addEventListener("touchend",e=>{
+  const diff=e.changedTouches[0].screenX-touchStart;
+  if(Math.abs(diff)>65)change(diff<0?1:-1);
+},{passive:true});
+show(0);
+</script>
+</body>
+</html>
